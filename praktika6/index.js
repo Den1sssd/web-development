@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import reportWebVitals from './reportWebVitals';
+import reportWebVitals from '../praktika9/reportWebVitals';
 import {FuncElem} from "./FuncElem/FuncElem";
 import {ClassElem} from "./ClassElem/ClassElem";
 
