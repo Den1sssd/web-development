@@ -13,10 +13,10 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "../praktika7/node_modules/.bin/react-scripts start",
+    "build": "../praktika7/node_modules/.bin/react-scripts build",
+    "test": "../praktika7/node_modules/.bin/react-scripts test",
+    "eject": "../praktika7/node_modules/.bin/react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
