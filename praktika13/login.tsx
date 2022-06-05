@@ -1,8 +1,8 @@
 import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
-import LoginStyles from "../praktika13/login.module.css";
+import LoginStyles from "./login.module.css";
 import { context } from "../../App";
-import { Url } from "../API/API";
+import { AsteroidsArray, Url } from "../API/API";
 import HeadStyles from "../Head.module.css";
 
 export function Login() {
@@ -22,36 +22,40 @@ export function Login() {
     });
     const [saveLocalStorage, setSaveLocalStorage] = useState(false);
 
-    function changeName(event) {
+    function changeName(event: React.ChangeEvent<HTMLInputElement>) {
         setName(event.target.value);
     }
 
-    function changeKey(event) {
+    function changeKey(event: React.ChangeEvent<HTMLInputElement>) {
         setKey({ API: event.target.value, valid: false });
     }
 
-    function changeSave(event) {
+    function changeSave(event: React.ChangeEvent<HTMLInputElement>) {
         setSaveLocalStorage(event.target.checked);
     }
 
     function Submit() {
-        fetch(Url(key.API))
-            .then((response) => {
-                if (!response.ok) throw new Error(response.status);
-                else return response.json();
-            })
-            .then((data) => {
-                dispatch({ payload: AsteroidsArray(data), type: "Arr" });
-                setKey({ ...key, valid: true });
-                if (saveLocalStorage) {
-                    window.localStorage.setItem("name", name);
-                    window.localStorage.setItem("API-key", key.API);
-                }
-            })
-            .catch((error) => {
-                alert("Введите действительный API-ключ");
-                console.log(error);
-            });
+        if (key.API !== null)
+            fetch(Url(key.API))
+                .then((response: any) => {
+                    if (!response.ok) throw new Error(response.status);
+                    else return response.json();
+                })
+                .then((data) => {
+                    dispatch({
+                        payload: { ...state, arr: AsteroidsArray(data) },
+                        type: "Arr",
+                    });
+                    setKey({ ...key, valid: true });
+                    if (saveLocalStorage && name !== null && key.API !== null) {
+                        window.localStorage.setItem("name", name);
+                        window.localStorage.setItem("API-key", key.API);
+                    }
+                })
+                .catch((error) => {
+                    alert("Введите действительный API-ключ");
+                    console.log(error);
+                });
     }
 
     return (
@@ -65,20 +69,20 @@ export function Login() {
                 </Link>
             </div>
             <label className={LoginStyles.name}>
-                {key.valid === true ? name : "DEMO MODE"}
+                {key.valid ? name : "DEMO MODE"}
             </label>
             <div className={LoginStyles.form}>
                 <input
                     className={LoginStyles.text}
                     type="text"
-                    value={name}
+                    value={name !== null ? name : ""}
                     onChange={changeName}
                     placeholder="Имя"
                 />
                 <input
                     className={LoginStyles.text}
                     type="text"
-                    value={key.API}
+                    value={key.API !== null ? key.API : ""}
                     onChange={changeKey}
                     placeholder="API-ключ"
                 />

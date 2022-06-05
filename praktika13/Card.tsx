@@ -1,25 +1,32 @@
 import { useContext } from "react";
-import styles from "../praktika13/Card.module.css";
+import styles from "./Card.module.css";
 import dino from "../assets/dino.png";
 import asteroid1 from "../assets/asteroid1.png";
 import asteroid2 from "../assets/asteroid2.png";
 import asteroid3 from "../assets/asteroid3.png";
 import { context } from "../App";
 
-export function Card(props) {
-    const { name, date, distance, size, grade, units } = props;
+export type Asteroid = {
+    name: string;
+    date: string;
+    distance: number;
+    size: number;
+    grade: "опасен" | "не опасен";
+};
+
+export function Card(props: Asteroid) {
     const { state, dispatch } = useContext(context);
 
     function DestroyArray() {
+        const data = {
+            name: props.name,
+            date: props.date,
+            distance: props.distance,
+            size: props.size,
+            grade: props.grade,
+        };
         dispatch({
-            payload: {
-                name: props.name,
-                date: props.date,
-                distance: props.distance,
-                size: props.size,
-                grade: props.grade,
-                units: state.units,
-            },
+            payload: { ...state, destroy: [data] },
             type: "Destroy",
         });
     }
@@ -59,17 +66,17 @@ export function Card(props) {
                     </label>
                     <label className={styles.size}>
                         Размер...................................
-                        {props.size} м
+                        {props.size.toFixed(2)} м
                     </label>
-                    {props.units === 0 ? (
+                    {state.units === 0 ? (
                         <label className={styles.distance}>
                             Расстояние.................
-                            {props.distance} км
+                            {props.distance.toFixed(2)} км
                         </label>
                     ) : (
                         <label className={styles.distance}>
                             Расстояние.................
-                            {(props.distance.replace(/\s/g, "") / 384400).toFixed(2)} лд
+                            {(props.distance / 384400).toFixed(2)} лд
                         </label>
                     )}
                 </label>
