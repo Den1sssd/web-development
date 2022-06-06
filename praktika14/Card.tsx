@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import CardStyles from "./Card.module.css";
+import CardStyles from "../praktika 15/Card.module.css";
 import dino from "../Assets/dino.png";
 import asteroid1 from "../Assets/asteroid1.png";
 import asteroid2 from "../Assets/asteroid2.png";
